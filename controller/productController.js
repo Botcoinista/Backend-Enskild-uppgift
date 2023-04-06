@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { addNewProduct, getAllProducts } = require("../models/webshopModel");
+const { addNewProduct, getAllProducts, getSingleProductById } = require("../models/webshopModel");
 // const webshopModel = require("../models/webshopModel")
 // const webshopSchema = require("../schemas/webshopSchema")
 
@@ -7,6 +7,7 @@ const { addNewProduct, getAllProducts } = require("../models/webshopModel");
 
 router.post("/", addNewProduct);
 
+router.get("/:id", getSingleProductById)
 router.get("/", getAllProducts);
 
 module.exports = router;

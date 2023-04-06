@@ -20,10 +20,22 @@ exports.addNewProduct = (req, res) => {
     );
 };
 
+
+//Get all products
 exports.getAllProducts = (req, res) => {
   product.find().then((products) => {
     res.status(200).json(products);
   });
 };
 
-// getproductById
+// getproductById (a single product)
+exports.getSingleProductById = (req, res) => {
+  product.findById(req.params.id)
+    .then(product => {
+      res.status(200).json(product)
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Error retrieving product data' })
+    })
+}
+
