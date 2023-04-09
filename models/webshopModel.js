@@ -5,7 +5,7 @@ exports.addNewProduct = (req, res) => {
 
   if (!Name || !Description || !Price || !ImgURL) {
     res.status(400).json({
-      message: "Alla fälten måste vara ifylda",
+      message: "You must fill all fields",
     });
     return;
   }
@@ -25,8 +25,14 @@ exports.addNewProduct = (req, res) => {
 exports.getAllProducts = (req, res) => {
   product.find().then((products) => {
     res.status(200).json(products);
-  });
+  })
+  .catch(error => {
+    res.status(500).json({ message: " Error retrieving product data" })
+  })
 };
+
+
+
 
 // getproductById (a single product)
 exports.getSingleProductById = (req, res) => {
@@ -35,7 +41,34 @@ exports.getSingleProductById = (req, res) => {
       res.status(200).json(product)
     })
     .catch(error => {
-      res.status(500).json({ message: 'Error retrieving product data' })
+      res.status(500).json({ message: "Error retrieving product data" })
     })
 }
 
+
+//Update product
+exports.updateProduct = (req, res) => {
+  
+  const { Name, Description, Price, ImgURL } = req.body;
+  if(!Name || !Description || !Price || !ImgURL) {
+    res.status(400).json({
+      message: "You need to enter new values"
+    })
+    return
+  }
+
+  product.findByIdAndUpdate(req.params.id, { Name, Description, Price, ImgURL }, { new: true }) 
+  .then(product => {
+    if(!product) {
+      res.status(400).json({
+        message: "Could not find that product"
+      })
+      return
+    } 
+    res.status(400).json(product)
+  })
+  .catch(error => {
+    res.status(500).json({ 
+      message: "Error when updaing the product" })
+  })
+}
