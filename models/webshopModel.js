@@ -14,9 +14,8 @@ exports.addNewProduct = (req, res) => {
     .create({ Name, Description, Price, ImgURL })
     .then((product) => res.status(201).json(product))
     .catch(() =>
-      res
-        .status(500)
-        .json({ message: "Something whent wrong creating the product" })
+      res.status(500).json(
+        { message: "Something whent wrong creating the product" })
     );
 };
 
@@ -52,7 +51,7 @@ exports.updateProduct = (req, res) => {
   const { Name, Description, Price, ImgURL } = req.body;
   if(!Name || !Description || !Price || !ImgURL) {
     res.status(400).json({
-      message: "You need to enter new values"
+      message: "You need to enter all the new values"
     })
     return
   }
@@ -60,15 +59,39 @@ exports.updateProduct = (req, res) => {
   product.findByIdAndUpdate(req.params.id, { Name, Description, Price, ImgURL }, { new: true }) 
   .then(product => {
     if(!product) {
-      res.status(400).json({
+      res.status(404).json({
         message: "Could not find that product"
       })
       return
     } 
-    res.status(400).json(product)
+    res.status(200).json(product)
   })
-  .catch(error => {
+  .catch( error => {
     res.status(500).json({ 
       message: "Error when updaing the product" })
   })
 }
+
+
+
+//Delete Product
+
+exports.deleteProduct = (req, res) => {
+  
+  product.findByIdAndDelete(req.params.id)
+  .then(product => {
+    if(!product) {
+      res.status(404).json({
+        message: "Could not find that product"
+      })
+      return
+    }
+    res.status(200).json(product)
+    })
+    .catch(error => {
+      res.status(500).json({ 
+        message: "Something went wrong when deleting the product"
+      })
+    })
+}
+
