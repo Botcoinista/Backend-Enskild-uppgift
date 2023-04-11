@@ -1,3 +1,4 @@
+//Skapar en mall
 const mongoose = require("mongoose");
 
 const productSchema = mongoose.Schema({
