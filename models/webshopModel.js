@@ -1,5 +1,6 @@
 const product = require("../schemas/webshopSchema");
 
+//Create a product
 exports.addNewProduct = (req, res) => {
   const { Name, Description, Price, ImgURL } = req.body;
 
@@ -33,7 +34,7 @@ exports.getAllProducts = (req, res) => {
 
 
 
-// getproductById (a single product)
+//Get product by Id (a single product)
 exports.getSingleProductById = (req, res) => {
   product.findById(req.params.id)
     .then(product => {
